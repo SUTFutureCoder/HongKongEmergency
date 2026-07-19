@@ -14,6 +14,8 @@ HongKongEmergency is a compact Cantonese phrasebook for Chinese-speaking newcome
 
 ## Read Online
 
+GitHub Pages: [https://sutfuturecoder.github.io/HongKongEmergency/](https://sutfuturecoder.github.io/HongKongEmergency/)
+
 After GitHub Pages is enabled, publish directly from the `docs/` directory.
 
 Recommended GitHub Pages settings:
