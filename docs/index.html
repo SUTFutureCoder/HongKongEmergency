@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>HongKongEmergency | 香港生活与职场粤语速查表</title>
+  <meta name="description" content="HongKongEmergency 是面向中文使用者的香港生活与职场粤语速查表，包含粤语口语、粤拼、普通话释义和本地 TTS。">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f5;
+      --panel: #ffffff;
+      --text: #202a2d;
+      --muted: #617074;
+      --line: #d6dfdd;
+      --accent: #b52a32;
+      --accent-2: #006d77;
+      --ink: #142024;
+      --soft: #edf2f0;
+      --warm: #f4eee5;
+      --shadow: 0 16px 40px rgba(30, 43, 46, 0.11);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Noto Sans HK", "PingFang HK", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent-2);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    header {
+      background: var(--ink);
+      color: #ffffff;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    .hero {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 28px;
+    }
+
+    .kicker {
+      margin: 0 0 12px;
+      color: #f0c36a;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 900px;
+      font-size: 3.8rem;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 800px;
+      margin: 18px 0 0;
+      color: #dce5e4;
+      font-size: 1.05rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: #ffffff;
+    }
+
+    .notice {
+      width: min(1120px, calc(100% - 32px));
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 24px;
+      width: min(1120px, calc(100% - 32px));
+      margin: 18px auto 48px;
+      align-items: start;
+    }
+
+    nav {
+      position: sticky;
+      top: 16px;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    nav h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    nav a {
+      display: block;
+      padding: 6px 0;
+      color: var(--ink);
+      font-size: 0.94rem;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(214, 223, 221, 0.75);
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar {
+      display: grid;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toolbar input {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 11px;
+      border: 1px solid #bfcac7;
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .segments {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .segment {
+      min-height: 34px;
+      padding: 6px 11px;
+      border: 1px solid #bfcac7;
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .segment:hover,
+    .segment:focus-visible {
+      border-color: var(--accent-2);
+    }
+
+    .segment[aria-pressed="true"] {
+      border-color: var(--accent-2);
+      background: var(--accent-2);
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .segment:focus-visible,
+    .speak-button:focus-visible {
+      outline: 3px solid rgba(0, 109, 119, 0.26);
+      outline-offset: 2px;
+    }
+
+    .content {
+      padding: 18px 22px 36px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3 {
+      scroll-margin-top: 18px;
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+
+    .content h1 {
+      margin: 0 0 18px;
+      font-size: 1.9rem;
+    }
+
+    .content h2 {
+      margin: 34px 0 12px;
+      padding-top: 10px;
+      border-top: 2px solid var(--line);
+      font-size: 1.45rem;
+    }
+
+    .content h3 {
+      margin: 24px 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .content blockquote {
+      margin: 0 0 18px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--accent);
+      background: var(--warm);
+      color: #4a5558;
+    }
+
+    .content ul {
+      padding-left: 22px;
+    }
+
+    .content table {
+      width: 100%;
+      margin: 12px 0 24px;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    .content th,
+    .content td {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .content th {
+      background: #e8efed;
+      color: #202a2d;
+      font-weight: 800;
+    }
+
+    .content tr:nth-child(even) td {
+      background: #fbfcfb;
+    }
+
+    .content code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #e9eeec;
+      font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    .content pre {
+      overflow: auto;
+      padding: 12px;
+      border-radius: 6px;
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    .content pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .content hr {
+      margin: 30px 0;
+      border: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .speech-entry {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      min-width: 9rem;
+    }
+
+    .speech-text {
+      min-width: 0;
+    }
+
+    .speak-button {
+      display: inline-flex;
+      flex: 0 0 30px;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      margin: -2px 0;
+      padding: 0;
+      border: 1px solid #aab8b5;
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .speak-button:hover {
+      border-color: var(--accent-2);
+      background: #e5f0ef;
+    }
+
+    .speak-button.is-speaking {
+      border-color: var(--accent);
+      background: #f7e5e2;
+    }
+
+    .speak-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .content-section[hidden] {
+      display: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+        max-height: 190px;
+      }
+
+      .content {
+        padding: 14px 12px 28px;
+      }
+
+      .content table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <section class="hero">
+      <p class="kicker">Hong Kong Cantonese quick reference</p>
+      <h1>HongKongEmergency</h1>
+      <p class="subtitle">香港生活与职场粤语速查表。粤语口语、粤拼与普通话释义，覆盖通勤、租住、办事、医疗、台风和办公室沟通。</p>
+      <div class="actions">
+        <a class="button" href="#content">开始阅读</a>
+        <a class="button secondary" href="hong-kong-cantonese.md">Markdown 原文</a>
+      </div>
+    </section>
+  </header>
+
+  <p class="notice">口语使用香港常见繁体字，读音采用粤拼数字声调；正式文件仍应按机构要求使用书面中文或英文。</p>
+
+  <div class="shell">
+    <nav aria-label="目录">
+      <h2>目录</h2>
+      <div id="toc"></div>
+    </nav>
+
+    <main>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="搜索：例如 八達通、租樓、deadline、病假" aria-label="搜索内容">
+        <div class="segments" role="group" aria-label="筛选场景">
+          <button class="segment" type="button" data-filter="all" aria-pressed="true">全部</button>
+          <button class="segment" type="button" data-filter="core" aria-pressed="false">基础</button>
+          <button class="segment" type="button" data-filter="life" aria-pressed="false">生活</button>
+          <button class="segment" type="button" data-filter="work" aria-pressed="false">职场</button>
+        </div>
+      </div>
+      <article id="content" class="content">
+        <p>正在加载 Markdown 内容...</p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const content = document.querySelector("#content");
+    const toc = document.querySelector("#toc");
+    const search = document.querySelector("#search");
+    const filterButtons = [...document.querySelectorAll("[data-filter]")];
+    const supportsSpeech = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+    let originalHtml = "";
+    let activeFilter = "all";
+    let availableVoices = [];
+    let activeSpeechButton = null;
+    let activeUtterance = null;
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function slugify(text) {
+      return text
+        .trim()
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}]+/gu, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function parseInline(text) {
+      return escapeHtml(text)
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    }
+
+    function parseMarkdown(markdown) {
+      const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+      const html = [];
+      let paragraph = [];
+      let table = [];
+      let list = [];
+      let blockquote = [];
+      let code = [];
+      let inCode = false;
+
+      function flushParagraph() {
+        if (paragraph.length) {
+          html.push(`<p>${parseInline(paragraph.join(" "))}</p>`);
+          paragraph = [];
+        }
+      }
+
+      function flushList() {
+        if (list.length) {
+          html.push(`<ul>${list.map(item => `<li>${parseInline(item)}</li>`).join("")}</ul>`);
+          list = [];
+        }
+      }
+
+      function flushBlockquote() {
+        if (blockquote.length) {
+          html.push(`<blockquote>${blockquote.map(line => `<p>${parseInline(line)}</p>`).join("")}</blockquote>`);
+          blockquote = [];
+        }
+      }
+
+      function flushTable() {
+        if (table.length) {
+          const rows = table
+            .filter(row => !/^\|\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(row))
+            .map((row, index) => {
+              const cells = row.trim().replace(/^\||\|$/g, "").split("|").map(cell => parseInline(cell.trim()));
+              const tag = index === 0 ? "th" : "td";
+              return `<tr>${cells.map(cell => `<${tag}>${cell}</${tag}>`).join("")}</tr>`;
+            });
+          if (rows.length) {
+            html.push(`<table>${rows.join("")}</table>`);
+          }
+          table = [];
+        }
+      }
+
+      function flushCode() {
+        if (code.length) {
+          html.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+          code = [];
+        }
+      }
+
+      function flushAll() {
+        flushParagraph();
+        flushList();
+        flushBlockquote();
+        flushTable();
+      }
+
+      for (const line of lines) {
+        if (line.startsWith("```")) {
+          if (inCode) {
+            flushCode();
+            inCode = false;
+          } else {
+            flushAll();
+            inCode = true;
+          }
+          continue;
+        }
+
+        if (inCode) {
+          code.push(line);
+          continue;
+        }
+
+        if (!line.trim()) {
+          flushAll();
+          continue;
+        }
+
+        if (/^---+$/.test(line.trim())) {
+          flushAll();
+          html.push("<hr>");
+          continue;
+        }
+
+        if (line.startsWith("|")) {
+          flushParagraph();
+          flushList();
+          flushBlockquote();
+          table.push(line);
+          continue;
+        }
+
+        if (line.startsWith(">")) {
+          flushParagraph();
+          flushList();
+          flushTable();
+          blockquote.push(line.replace(/^>\s?/, ""));
+          continue;
+        }
+
+        const heading = line.match(/^(#{1,6})\s+(.+)$/);
+        if (heading) {
+          flushAll();
+          const level = heading[1].length;
+          const text = heading[2].trim();
+          const id = slugify(text) || `section-${html.length}`;
+          html.push(`<h${level} id="${id}">${parseInline(text)}</h${level}>`);
+          continue;
+        }
+
+        const bullet = line.match(/^[-*]\s+(.+)$/);
+        if (bullet) {
+          flushParagraph();
+          flushBlockquote();
+          flushTable();
+          list.push(bullet[1]);
+          continue;
+        }
+
+        flushList();
+        flushBlockquote();
+        flushTable();
+        paragraph.push(line.trim());
+      }
+
+      flushAll();
+      flushCode();
+      return html.join("\n");
+    }
+
+    function categoryFor(title) {
+      if (/職場|搵工|人工|合約|客戶|供應商/.test(title)) {
+        return "work";
+      }
+      if (/通勤|餐廳|買嘢|租樓|銀行|银行|醫生|天氣/.test(title)) {
+        return "life";
+      }
+      return "core";
+    }
+
+    function groupSections() {
+      const fragment = document.createDocumentFragment();
+      let section = null;
+      for (const child of [...content.children]) {
+        if (child.tagName === "H2") {
+          section = document.createElement("section");
+          section.className = "content-section";
+          section.dataset.category = categoryFor(child.textContent);
+          fragment.appendChild(section);
+        }
+        if (section) {
+          section.appendChild(child);
+        } else {
+          fragment.appendChild(child);
+        }
+      }
+      content.replaceChildren(fragment);
+    }
+
+    function buildToc() {
+      const headings = [...content.querySelectorAll(".content-section h2")]
+        .filter(heading => !heading.closest(".content-section").hidden);
+      toc.innerHTML = headings
+        .map(heading => `<a href="#${heading.id}">${heading.textContent}</a>`)
+        .join("");
+    }
+
+    function applyFilters() {
+      const query = search.value.trim().toLowerCase();
+      for (const section of content.querySelectorAll(".content-section")) {
+        const categoryMatch = activeFilter === "all" || section.dataset.category === activeFilter;
+        const searchMatch = !query || section.textContent.toLowerCase().includes(query);
+        section.hidden = !(categoryMatch && searchMatch);
+      }
+      buildToc();
+    }
+
+    function refreshVoices() {
+      if (supportsSpeech) {
+        availableVoices = window.speechSynthesis.getVoices();
+      }
+    }
+
+    if (supportsSpeech) {
+      refreshVoices();
+      window.speechSynthesis.addEventListener("voiceschanged", refreshVoices);
+    }
+
+    function resetSpeechState(utterance = activeUtterance) {
+      if (utterance !== activeUtterance) {
+        return;
+      }
+      if (activeSpeechButton) {
+        activeSpeechButton.classList.remove("is-speaking");
+        activeSpeechButton.setAttribute("aria-label", activeSpeechButton.dataset.defaultLabel);
+        activeSpeechButton.title = activeSpeechButton.dataset.defaultTitle;
+      }
+      activeSpeechButton = null;
+      activeUtterance = null;
+    }
+
+    function stopSpeech() {
+      if (!supportsSpeech) {
+        return;
+      }
+      window.speechSynthesis.cancel();
+      resetSpeechState();
+    }
+
+    function chooseVoice(language) {
+      const normalizedLanguage = language.toLowerCase();
+      const exact = voice => voice.lang.toLowerCase() === normalizedLanguage;
+      const startsWith = prefix => voice => voice.lang.toLowerCase().startsWith(prefix);
+      return availableVoices.find(exact)
+        || availableVoices.find(startsWith("yue-"))
+        || availableVoices.find(startsWith("zh-hk"))
+        || availableVoices.find(startsWith("zh-"));
+    }
+
+    function speak(text, language, button) {
+      if (!supportsSpeech) {
+        return;
+      }
+      if (activeSpeechButton === button) {
+        stopSpeech();
+        return;
+      }
+
+      stopSpeech();
+      const speechText = text.replace(/……|\.\.\./g, "某某");
+      const utterance = new SpeechSynthesisUtterance(speechText);
+      const voice = chooseVoice(language);
+      utterance.lang = voice ? voice.lang : language;
+      utterance.rate = 0.9;
+      if (voice) {
+        utterance.voice = voice;
+      }
+
+      activeSpeechButton = button;
+      activeUtterance = utterance;
+      button.classList.add("is-speaking");
+      button.setAttribute("aria-label", `停止朗读：${text}`);
+      button.title = "停止朗读";
+      utterance.addEventListener("end", () => resetSpeechState(utterance));
+      utterance.addEventListener("error", () => resetSpeechState(utterance));
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function addSpeechButtons() {
+      const speechColumns = new Map([
+        ["粵語", "yue-HK"],
+        ["粤语", "yue-HK"],
+        ["粵語口語", "yue-HK"]
+      ]);
+
+      for (const table of content.querySelectorAll("table")) {
+        const rows = [...table.querySelectorAll("tr")];
+        const headers = rows[0] ? [...rows[0].querySelectorAll("th")] : [];
+        const columnIndex = headers.findIndex(header => speechColumns.has(header.textContent.trim()));
+        if (columnIndex === -1) {
+          continue;
+        }
+
+        const language = speechColumns.get(headers[columnIndex].textContent.trim());
+        for (const row of rows.slice(1)) {
+          const cell = row.querySelectorAll("td")[columnIndex];
+          if (!cell) {
+            continue;
+          }
+
+          const text = cell.textContent.trim();
+          const entry = document.createElement("div");
+          const textWrapper = document.createElement("span");
+          const button = document.createElement("button");
+          entry.className = "speech-entry";
+          textWrapper.className = "speech-text";
+          while (cell.firstChild) {
+            textWrapper.appendChild(cell.firstChild);
+          }
+          button.className = "speak-button";
+          button.type = "button";
+          button.textContent = "🔊";
+          button.dataset.defaultLabel = `朗读粤语：${text}`;
+          button.dataset.defaultTitle = "朗读粤语";
+          button.setAttribute("aria-label", button.dataset.defaultLabel);
+          button.title = button.dataset.defaultTitle;
+          if (supportsSpeech) {
+            button.addEventListener("click", () => speak(text, language, button));
+          } else {
+            button.disabled = true;
+            button.setAttribute("aria-label", "当前浏览器不支持语音合成");
+            button.title = "当前浏览器不支持语音合成";
+          }
+          entry.append(textWrapper, button);
+          cell.appendChild(entry);
+        }
+      }
+    }
+
+    function renderContent() {
+      content.innerHTML = originalHtml;
+      groupSections();
+      addSpeechButtons();
+      applyFilters();
+    }
+
+    fetch("hong-kong-cantonese.md")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.text();
+      })
+      .then(markdown => {
+        originalHtml = parseMarkdown(markdown);
+        renderContent();
+      })
+      .catch(error => {
+        content.innerHTML = `<h1>无法加载内容</h1><p>请直接打开 <a href="hong-kong-cantonese.md">Markdown 原文</a>。错误：${escapeHtml(error.message)}</p>`;
+      });
+
+    search.addEventListener("input", applyFilters);
+    for (const button of filterButtons) {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        for (const item of filterButtons) {
+          item.setAttribute("aria-pressed", String(item === button));
+        }
+        applyFilters();
+      });
+    }
+    window.addEventListener("pagehide", stopSpeech);
+  </script>
+</body>
+</html>
