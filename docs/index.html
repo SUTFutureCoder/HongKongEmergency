@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
-  <title>HongKongEmergency | 香港生活与职场粤语速查表</title>
-  <meta name="description" content="HongKongEmergency 是面向中文使用者的香港生活与职场粤语速查表，包含粤语口语、粤拼、普通话释义和本地 TTS。">
+  <title>HongKongEmergency | 香港生活与职场粤语速查</title>
+  <meta name="description" content="HongKongEmergency 是面向中文使用者的香港生活与职场粤语速查工具，按通勤、租住、办事、医疗、台风和办公场景整理常用表达，提供粤拼、普通话释义、搜索和浏览器朗读。">
   <style>
     :root {
       color-scheme: light;
@@ -391,6 +391,12 @@
         white-space: nowrap;
       }
     }
+
+    @media (max-width: 360px) {
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -398,10 +404,10 @@
     <section class="hero">
       <p class="kicker">Hong Kong Cantonese quick reference</p>
       <h1>HongKongEmergency</h1>
-      <p class="subtitle">香港生活与职场粤语速查表。粤语口语、粤拼与普通话释义，覆盖通勤、租住、办事、医疗、台风和办公室沟通。</p>
+      <p class="subtitle">按通勤、租住、办事、医疗、台风和职场场景整理常用粤语，配有粤拼、普通话释义与浏览器朗读。适合初到香港生活或工作的中文使用者。</p>
       <div class="actions">
-        <a class="button" href="#content">开始阅读</a>
-        <a class="button secondary" href="hong-kong-cantonese.md">Markdown 原文</a>
+        <a class="button" href="#search" data-search-action>开始查找</a>
+        <a class="button secondary" href="hong-kong-cantonese.md">查看原文</a>
       </div>
     </section>
   </header>
@@ -425,7 +431,7 @@
         </div>
       </div>
       <article id="content" class="content">
-        <p>正在加载 Markdown 内容...</p>
+        <p>正在加载速查内容...</p>
       </article>
     </main>
   </div>
@@ -434,6 +440,7 @@
     const content = document.querySelector("#content");
     const toc = document.querySelector("#toc");
     const search = document.querySelector("#search");
+    const searchAction = document.querySelector("[data-search-action]");
     const filterButtons = [...document.querySelectorAll("[data-filter]")];
     const supportsSpeech = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
     let originalHtml = "";
@@ -789,10 +796,18 @@
         renderContent();
       })
       .catch(error => {
-        content.innerHTML = `<h1>无法加载内容</h1><p>请直接打开 <a href="hong-kong-cantonese.md">Markdown 原文</a>。错误：${escapeHtml(error.message)}</p>`;
+        content.innerHTML = `<h1>无法加载内容</h1><p>请直接打开 <a href="hong-kong-cantonese.md">原文页面</a>。错误：${escapeHtml(error.message)}</p>`;
       });
 
     search.addEventListener("input", applyFilters);
+    searchAction.addEventListener("click", event => {
+      event.preventDefault();
+      search.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "center"
+      });
+      search.focus({ preventScroll: true });
+    });
     for (const button of filterButtons) {
       button.addEventListener("click", () => {
         activeFilter = button.dataset.filter;
